@@ -1,5 +1,6 @@
 import { View, ScrollView, TextInput, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
 import { useState } from 'react';
+import type_colors from './src/data/types'
 
 export default function App() {
   const [nome, setNome] = useState('');
@@ -21,12 +22,12 @@ export default function App() {
 
           const dados = await resposta.json();
           setPokemon(dados);
-      } catch (e) {
-          setErro(e.message);
-      } finally {
-          setLoading(false);
-      }
-  }
+          } catch (e) {
+              setErro(e.message);
+          } finally {
+              setLoading(false);
+          }
+    }
 
   return (
     <>
@@ -67,7 +68,13 @@ export default function App() {
               {pokemon.types.map((item) => (
                 <View
                   key={item.slot}
-                  style={styles.tagTipo}
+                  style={[
+                    styles.tagTipo,
+                    {
+                      backgroundColor:
+                        type_colors[item.type.name] || "#E2E8F0"
+                    }
+                  ]}
                 >
                   <Text style={styles.textType}>
                     {item.type.name}
@@ -114,6 +121,14 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     marginBottom: 8,
     alignSelf: "center",
+    backgroundColor: "#f63b3b",
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
   },
 
   subtitle: {
@@ -224,7 +239,7 @@ const styles = StyleSheet.create({
   },
 
   textType: {
-    color: "#334155",
+    color: "#ffffff",
     fontWeight: "600",
     textTransform: "capitalize",
   },
